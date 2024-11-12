@@ -1,0 +1,17 @@
+{
+  "name": "Flutter Dev Container",
+  "build": {
+    "dockerfile": "Dockerfile"
+  },
+  "settings": {
+    "flutter.sdkPath": "/usr/local/flutter" 
+  },
+  "extensions": [
+    "Dart-Code.flutter",
+    "Dart-Code.dart-code",
+    "ms-toolsai.jupyter"
+  ],
+  "forwardPorts": [8080],
+  "runArgs": ["--gpus", "all"],
+  "postCreateCommand": "flutter pub get"
+}
