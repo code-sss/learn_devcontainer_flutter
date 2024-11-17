@@ -1,17 +1,36 @@
 {
-  "name": "Flutter Dev Container",
-  "build": {
-    "dockerfile": "Dockerfile"
-  },
-  "settings": {
-    "flutter.sdkPath": "/usr/local/flutter" 
-  },
-  "extensions": [
-    "Dart-Code.flutter",
-    "Dart-Code.dart-code",
-    "ms-toolsai.jupyter"
+  "name": "Flutter Mobile Development Container",
+  "dockerFile": "Dockerfile",
+  "context": ".",
+  "runArgs": [
+    "--privileged", // Allow privileged access (important for emulator and GPU)
+    "--device=/dev/kvm", // Allow KVM access for hardware acceleration
+    "--device",
+    "/dev/dri:/dev/dri",
+    "--gpus",
+    "all", // Expose all available GPUs to the container
+    "-e",
+    "DISPLAY=${env:DISPLAY}", // Use the host's DISPLAY environment variable
+    "-v",
+    "/tmp/.X11-unix:/tmp/.X11-unix" // X11 socket forwarding for GUI
   ],
-  "forwardPorts": [8080],
-  "runArgs": ["--gpus", "all"],
-  "postCreateCommand": "flutter pub get"
+  // "postCreateCommand": "flutter doctor", // Ensure Flutter setup is complete
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "dart-code.flutter",
+        "dart-code.dart-code",
+        "ms-azuretools.vscode-docker",
+        "eamodio.gitlens"
+      ]
+    }
+  },
+  "forwardPorts": [
+    5554,
+    5555,
+    5037
+  ],
+  "mounts": [
+    "source=/dev/kvm,target=/dev/kvm,type=bind"
+  ]
 }
